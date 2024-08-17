@@ -8,7 +8,7 @@ firmware_version = os.environ.get('VERSION', "")
 if firmware_version == "":
   # When no version is specified default to "0.0.1" for
   # compatibility with MobiFlight desktop app version checks.
-  firmware_version = "0.0.1"
+  firmware_version = "2.5.2"
 
 # Strip any leading "v" that might be on the version and
 # any leading or trailing periods.
@@ -18,7 +18,7 @@ firmware_version = firmware_version.strip(".")
 # Get the core version number from the custom.ini file
 try: 
   core_firmware_version = env.GetProjectOption("custom_core_firmware_version")
-  core_firmware_version = "2.5.1"   # Delete this once all PR's from the core FW repo are merged!!
+  core_firmware_version = "2.5.2"   # Delete this once all PR's from the core FW repo are merged!!
   if core_firmware_version == "":
     # When no version is specified send an error
     print("ERROR!! Core Firmware Version must be a valid version!!")

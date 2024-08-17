@@ -23,21 +23,20 @@
     "CanInstallFirmware": true,
     "CanResetBoard": true,
     "DelayAfterFirmwareUpdate": 0,
-    "FirmwareBaseName": "mobiflight_template_esp32s3",
+    "FirmwareBaseName": "StandbyAttitudeModule_esp32s3",
     "FirmwareExtension": "bin",
-    "FriendlyName": "ESP32-S3 DevKitC1",
-    "LatestFirmwareVersion": "2.5.1",
-    "MobiFlightType": "Mobiflight Template ESP32-S3 DevKitC1",
+    "FriendlyName": "Standby Attitude Module ESP32-S3",
+    "LatestFirmwareVersion": "2.5.2",
+    "MobiFlightType": "Standby Attitude Module ESP32-S3",
     "ResetFirmwareFile": "reset.raspberry_pico_flash_nuke.uf2",
     "CustomDeviceTypes": [
-      "MOBIFLIGHT_TEMPLATE",
-      "MOBIFLIGHT_TEMPLATE2"
+      "StandbyAttitudeModule"
     ],
     "Community": {
-      "Project": "Your Project",
-      "Website": "https://YourWebsite.com",
-      "Docs": "https://YourWebsite.com",
-      "Support": "https://YourWebsite.com"
+      "Project": "Standby Attitude Module ESP32-S3",
+      "Website": "https://www.youtube.com/channel/UCFSyaCJK2cgowmSb3v3u2Ow",
+      "Docs": "https://github.com/savesabanal01/Mobiflight-StandbyAttitudeModule-ESP32-S3/tree/ESP32_support",
+      "Support": "https://discord.com/invite/U28QeEJpBV"
     }
   },
   "ModuleLimits": {
