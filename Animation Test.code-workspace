@@ -1,0 +1,48 @@
+{
+	"folders": [
+		{
+			"path": "../Animation Test"
+		},
+		{
+			"name": "MD302 Attitude Indicator PoC 5",
+			"path": "../MD302 Attitude Indicator PoC 5"
+		},
+		{
+			"name": "TFT Test",
+			"path": "../TFT Test"
+		},
+		{
+			"name": "3S Standby Attitude Module",
+			"path": "../3S Standby Attitude Module"
+		},
+		{
+			"name": "Bodmer DMA Example 1",
+			"path": "../Bodmer DMA Example 1"
+		},
+		{
+			"name": "Standby_Attitude_Module_ESP32_S3",
+			"path": "../Standby_Attitude_Module_ESP32_S3"
+		},
+		{
+			"name": "Airspeed Indicator PoC",
+			"path": "../Airspeed Indicator PoC"
+		},
+		{
+			"name": "Mobiflight-StandbyAttitudeModule-ESP32-S3",
+			"path": "."
+		},
+		{
+			"name": "Mobiflight-Community-Devices-ESP32S3",
+			"path": "../Mobiflight-Community-Devices-ESP32S3"
+		},
+		{
+			"name": "Standby Attitude Module PoC",
+			"path": "../Standby Attitude Module PoC"
+		},
+		{
+			"name": "Mobiflight-Airspeed_Indicator-ESP32-S3",
+			"path": "../Mobiflight-Airspeed_Indicator-ESP32-S3"
+		}
+	],
+	"settings": {}
+}

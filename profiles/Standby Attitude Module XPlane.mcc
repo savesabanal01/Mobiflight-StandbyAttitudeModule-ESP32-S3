@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<MobiflightConnector>
+  <outputs>
+    <config guid="0db4b261-6e2f-435f-8a74-c6096b085de2">
+      <active>true</active>
+      <description>Pitch</description>
+      <settings msdata:InstanceType="MobiFlight.OutputConfigItem, MFConnector, Version=10.3.0.1, Culture=neutral, PublicKeyToken=null" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <source type="XplaneDataRef" path="sim/cockpit2/gauges/indicators/pitch_AHARS_deg_pilot" />
+        <test type="Float" value="1" />
+        <modifiers />
+        <display type="CustomDevice" serial="Standby Attitude Module ESP32-S3/ SN-24587CDE6C94" trigger="normal" customType="" customName="Standby Attitude Module ESP32-S3" messageType="0" value="$" />
+        <preconditions />
+        <configrefs />
+      </settings>
+    </config>
+    <config guid="75444ce4-379d-452a-a240-36cd1c81ebd7">
+      <active>true</active>
+      <description>Roll</description>
+      <settings msdata:InstanceType="MobiFlight.OutputConfigItem, MFConnector, Version=10.3.0.1, Culture=neutral, PublicKeyToken=null" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <source type="XplaneDataRef" path="sim/cockpit2/gauges/indicators/roll_AHARS_deg_pilot" />
+        <test type="Float" value="1" />
+        <modifiers />
+        <display type="CustomDevice" serial="Standby Attitude Module ESP32-S3/ SN-24587CDE6C94" trigger="normal" customType="" customName="Standby Attitude Module ESP32-S3" messageType="1" value="$" />
+        <preconditions />
+        <configrefs />
+      </settings>
+    </config>
+    <config guid="7a292745-7122-46e2-a678-21b5edd7f3a1">
+      <active>true</active>
+      <description>Slip Angle</description>
+      <settings msdata:InstanceType="MobiFlight.OutputConfigItem, MFConnector, Version=10.3.0.1, Culture=neutral, PublicKeyToken=null" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <source type="XplaneDataRef" path="sim/cockpit2/gauges/indicators/slip_deg" />
+        <test type="Float" value="1" />
+        <modifiers />
+        <display type="CustomDevice" serial="Standby Attitude Module ESP32-S3/ SN-24587CDE6C94" trigger="normal" customType="" customName="Standby Attitude Module ESP32-S3" messageType="2" value="$" />
+        <preconditions />
+        <configrefs />
+      </settings>
+    </config>
+    <config guid="e8e22b76-0976-4951-88e2-889540a593fd">
+      <active>true</active>
+      <description>Airspeed</description>
+      <settings msdata:InstanceType="MobiFlight.OutputConfigItem, MFConnector, Version=10.3.0.1, Culture=neutral, PublicKeyToken=null" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <source type="XplaneDataRef" path="sim/cockpit2/gauges/indicators/airspeed_kts_pilot" />
+        <test type="Float" value="1" />
+        <modifiers />
+        <display type="CustomDevice" serial="Standby Attitude Module ESP32-S3/ SN-24587CDE6C94" trigger="normal" customType="" customName="Standby Attitude Module ESP32-S3" messageType="3" value="$" />
+        <preconditions />
+        <configrefs />
+      </settings>
+    </config>
+    <config guid="7c96ec8c-45ad-47e5-97c0-55ecbe63b731">
+      <active>true</active>
+      <description>Altitude</description>
+      <settings msdata:InstanceType="MobiFlight.OutputConfigItem, MFConnector, Version=10.3.0.1, Culture=neutral, PublicKeyToken=null" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <source type="XplaneDataRef" path="sim/cockpit2/gauges/indicators/altitude_ft_pilot" />
+        <test type="Float" value="1" />
+        <modifiers />
+        <display type="CustomDevice" serial="Standby Attitude Module ESP32-S3/ SN-24587CDE6C94" trigger="normal" customType="" customName="Standby Attitude Module ESP32-S3" messageType="4" value="$" />
+        <preconditions />
+        <configrefs />
+      </settings>
+    </config>
+    <config guid="4b1cbb76-007b-443e-8f25-7b38343db95e">
+      <active>true</active>
+      <description>Heading</description>
+      <settings msdata:InstanceType="MobiFlight.OutputConfigItem, MFConnector, Version=10.3.0.1, Culture=neutral, PublicKeyToken=null" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <source type="XplaneDataRef" path="sim/cockpit2/gauges/indicators/heading_AHARS_deg_mag_pilot" />
+        <test type="Float" value="1.6666666" />
+        <modifiers>
+          <transformation active="True" expression="Round($,2)" />
+        </modifiers>
+        <display type="CustomDevice" serial="Standby Attitude Module ESP32-S3/ SN-24587CDE6C94" trigger="normal" customType="" customName="Standby Attitude Module ESP32-S3" messageType="5" value="$" />
+        <preconditions />
+        <configrefs />
+      </settings>
+    </config>
+    <config guid="b0df8c36-f911-48a9-ab05-00b0a7df9a21">
+      <active>true</active>
+      <description>Baro</description>
+      <settings msdata:InstanceType="MobiFlight.OutputConfigItem, MFConnector, Version=10.3.0.1, Culture=neutral, PublicKeyToken=null" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <source type="XplaneDataRef" path="sim/cockpit2/gauges/actuators/barometer_setting_in_hg_pilot" />
+        <test type="Float" value="1" />
+        <modifiers />
+        <display type="CustomDevice" serial="Standby Attitude Module ESP32-S3/ SN-24587CDE6C94" trigger="normal" customType="" customName="Standby Attitude Module ESP32-S3" messageType="6" value="$" />
+        <preconditions />
+        <configrefs />
+      </settings>
+    </config>
+    <config guid="aecc9979-42f1-4cbd-a98a-f4de6e7b8d23">
+      <active>true</active>
+      <description>Instrument Brightness</description>
+      <settings msdata:InstanceType="MobiFlight.OutputConfigItem, MFConnector, Version=10.3.0.1, Culture=neutral, PublicKeyToken=null" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <source type="XplaneDataRef" path="sim/cockpit2/electrical/instrument_brightness_ratio_manual[1]" />
+        <test type="Float" value="1" />
+        <modifiers />
+        <display type="CustomDevice" serial="Standby Attitude Module ESP32-S3/ SN-24587CDE6C94" trigger="normal" customType="" customName="Standby Attitude Module ESP32-S3" messageType="7" value="$" />
+        <preconditions />
+        <configrefs />
+      </settings>
+    </config>
+    <config guid="8f222e79-17c7-4dda-9ffa-e69b1e5fa00f">
+      <active>true</active>
+      <description>Screen Orientation (set static values)</description>
+      <settings msdata:InstanceType="MobiFlight.OutputConfigItem, MFConnector, Version=10.3.0.1, Culture=neutral, PublicKeyToken=null" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <source type="Variable" varType="number" varName="Screen_Orientation" varExpression="$" />
+        <test type="Float" value="0" />
+        <modifiers>
+          <transformation active="True" expression="3" />
+        </modifiers>
+        <display type="CustomDevice" serial="Standby Attitude Module ESP32-S3/ SN-24587CDE6C94" trigger="normal" customType="" customName="Standby Attitude Module ESP32-S3" messageType="100" value="$" />
+        <preconditions />
+        <configrefs />
+      </settings>
+    </config>
+  </outputs>
+  <inputs>
+    <config guid="6d53949e-94ea-4fa0-9332-563736aa8f3c">
+      <active>true</active>
+      <description>Barometer Setting</description>
+      <settings msdata:InstanceType="MobiFlight.InputConfigItem, MFConnector, Version=10.3.0.1, Culture=neutral, PublicKeyToken=null" serial="Standby Attitude Module ESP32-S3/ SN-24587CDE6C94" name="Encoder" type="Encoder" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <encoder>
+          <onLeft type="XplaneInputAction" inputType="Command" path="sim/instruments/barometer_up" expression="" />
+          <onLeftFast type="XplaneInputAction" inputType="Command" path="sim/instruments/barometer_up" expression="" />
+          <onRight type="XplaneInputAction" inputType="Command" path="sim/instruments/barometer_down" expression="" />
+          <onRightFast type="XplaneInputAction" inputType="Command" path="sim/instruments/barometer_down" expression="" />
+        </encoder>
+        <preconditions />
+        <configrefs />
+      </settings>
+    </config>
+    <config guid="6ef8404f-1168-4071-904f-6849a7423b92">
+      <active>true</active>
+      <description>Barometer 2992</description>
+      <settings msdata:InstanceType="MobiFlight.InputConfigItem, MFConnector, Version=10.3.0.1, Culture=neutral, PublicKeyToken=null" serial="Standby Attitude Module ESP32-S3/ SN-24587CDE6C94" name="Button" type="Button" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <button>
+          <onPress type="XplaneInputAction" inputType="Command" path="sim/instruments/barometer_2992" expression="" />
+        </button>
+        <preconditions />
+        <configrefs />
+      </settings>
+    </config>
+  </inputs>
+</MobiflightConnector>

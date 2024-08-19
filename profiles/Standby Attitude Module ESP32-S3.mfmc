@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ModuleType>Standby Attitude Module ESP32-S3</ModuleType>
+  <ModuleName>Standby Attitude Module ESP32-S3</ModuleName>
+  <PowerSavingTime>600</PowerSavingTime>
+  <CustomDevice Name="Standby Attitude Module ESP32-S3" CustomType="StandbyAttitudeModule" Pins="1|2|3" Config="">
+    <ConfiguredPins>
+      <string>1</string>
+      <string>2</string>
+      <string>3</string>
+    </ConfiguredPins>
+  </CustomDevice>
+  <Encoder Name="Encoder" PinLeft="10" PinRight="11" EncoderType="2" />
+  <Button Name="Button" Pin="12" />
+</Config>
