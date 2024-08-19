@@ -27,6 +27,8 @@ private:
     float baro = 0;       // baro value from sim
     float instrumentBrightnessRatio = 0.75;       // baro value from sim
     float instrumentBrightness = 192;
+    int screenRotation = 3;
+    int prevScreenRotation = 3;
 
 
     // Function declarations
@@ -49,4 +51,5 @@ private:
     void setHeading(float value);
     void setBaro(float value);
     void setInstrumentBrightness(float value);
+    void setScreenRotation(int rotation);
 };

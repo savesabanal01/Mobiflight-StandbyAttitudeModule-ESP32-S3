@@ -95,7 +95,7 @@ void StandbyAttitudeModule::begin()
   // digitalWrite(LED_BUILTIN, LOW);
   Serial.setTimeout(2);
   tft.begin();
-  tft.setRotation(3);
+  tft.setRotation(screenRotation);
   tft.fillScreen(PANEL_COLOR);
   tft.setPivot(320, 160);
   tft.setSwapBytes(true);
@@ -250,6 +250,10 @@ void StandbyAttitudeModule::set(int16_t messageID, char *setPoint)
         setInstrumentBrightness(atof(setPoint));
         /* code */  
         break;
+    case 100:
+        setScreenRotation(atoi(setPoint));
+        /* code */  
+        break;
     default:
         break;
     }
@@ -296,6 +300,11 @@ void StandbyAttitudeModule::setInstrumentBrightness(float value)
     instrumentBrightness = (int)scaleValue(instrumentBrightnessRatio, 0, 1, 0, 255);
 }
 
+void StandbyAttitudeModule::setScreenRotation(int rotation)
+{
+  if (rotation == 1 || rotation == 3)
+    screenRotation = rotation;
+}
 
 
 void StandbyAttitudeModule::update()
@@ -306,6 +315,13 @@ void StandbyAttitudeModule::update()
   drawAltitudeIndicator();
   // drawUpdate(1); // Update the sprites
   analogWrite(TFT_BL, instrumentBrightness);
+
+  // set the screen rotation
+  if (prevScreenRotation != screenRotation)
+  {
+    prevScreenRotation = screenRotation;
+    tft.setRotation(screenRotation);
+  }
 }
 
 // void StandbyAttitudeModule::loop2()

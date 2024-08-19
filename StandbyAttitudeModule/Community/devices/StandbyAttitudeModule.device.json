@@ -56,6 +56,12 @@
         "label": "Show Instrument Brightness Ratio",
         "description": "$ will be displayed as Instrument Brightness value (0 - 1)"
       }
+      ,
+      {
+        "id": 100,
+        "label": "Set Screen Rotation",
+        "description": "1 = Normal, 3 = Flipped. Do not use other values!"
+      }
 
     ]
   }
