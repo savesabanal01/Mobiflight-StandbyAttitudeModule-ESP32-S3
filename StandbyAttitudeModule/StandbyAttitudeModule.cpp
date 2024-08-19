@@ -70,6 +70,7 @@ TFT_eSprite speedIndBoxSpr = TFT_eSprite(&tft);      // Sprite to hold speed ind
 TFT_eSprite altIndBoxSpr = TFT_eSprite(&tft);        // Sprite to hold altitude indicator box
 TFT_eSprite baroBoxSpr = TFT_eSprite(&tft);          // Sprite to holdt the Baro Box
 
+
 #define BROWN 0x80C3    // 0x5960
 #define SKY_BLUE 0x255C // 0x0318 //0x039B //0x34BF
 
@@ -86,13 +87,13 @@ StandbyAttitudeModule::StandbyAttitudeModule(uint8_t Pin1, uint8_t Pin2)
 
 void StandbyAttitudeModule::begin()
 {
-  Serial.begin(115200);
-  pinMode(LED_BUILTIN, OUTPUT); // built in LED on arduino board will turn on and off with the status of the beacon light
-  digitalWrite(LED_BUILTIN, HIGH);
+  // Serial.begin(115200);
+  // pinMode(LED_BUILTIN, OUTPUT); // built in LED on arduino board will turn on and off with the status of the beacon light
+  // digitalWrite(LED_BUILTIN, HIGH);
 
-  delay(1000); // wait for serial monitor to open
-  digitalWrite(LED_BUILTIN, LOW);
-
+  // delay(1000); // wait for serial monitor to open
+  // digitalWrite(LED_BUILTIN, LOW);
+  Serial.setTimeout(2);
   tft.begin();
   tft.setRotation(3);
   tft.fillScreen(PANEL_COLOR);
@@ -202,36 +203,43 @@ void StandbyAttitudeModule::set(int16_t messageID, char *setPoint)
         Put in your code to enter this mode (e.g. clear a display)
 
     ********************************************************************************** */
-    int32_t  data = atoi(setPoint);
-    uint16_t output;
+    // int32_t  data = atoi(setPoint);
+    // uint16_t output;
 
     // do something according your messageID
     switch (messageID) {
     case -1:
         // tbd., get's called when Mobiflight shuts down
+          digitalWrite(TFT_BL, LOW);
     case -2:
         // tbd., get's called when PowerSavingMode is entered
+        if(atoi(setPoint) == 1)
+          digitalWrite(TFT_BL, LOW);
+        else if (atoi(setPoint) == 0)
+          analogWrite(TFT_BL, instrumentBrightness);
     case 0:
-        // output = (uint16_t)data;
-        // data   = output;
         setPitch(atof(setPoint));
         break;
     case 1:
-        /* code */
+        // /* code */
         setRoll(atof(setPoint));
         break;
     case 2:
         setSlipAngle(atof(setPoint));
         /* code */
+        break;
     case 3:
-        setAirSpeed(atof(setPoint));
+      setAirSpeed(atof(setPoint));
         /* code */
+        break;
     case 4:
         setAltitude(atof(setPoint));
-        /* code */   
+        /* code */ 
+        break;  
     case 5:
         setHeading(atof(setPoint));
         /* code */  
+        break;
     case 6:
         setBaro(atof(setPoint));
         /* code */  
@@ -253,12 +261,12 @@ void StandbyAttitudeModule::setPitch(float value)
 
 void StandbyAttitudeModule::setRoll(float value)
 {
-    roll = value;
+    roll = value * -1.0;   // Value seems to be reversed from sim
 }
 
 void StandbyAttitudeModule::setSlipAngle(float value)
 {
-    slipAngle = value;
+    slipAngle = value * -1.0;  // Value seems to be reversed from sim
 }
 
 void StandbyAttitudeModule::setAltitude(float value)
@@ -279,7 +287,7 @@ void StandbyAttitudeModule::setBaro(float value)
 void StandbyAttitudeModule::setInstrumentBrightness(float value)
 {
     instrumentBrightnessRatio = value;
-    instrumentBrightness = scaleValue(instrumentBrightnessRatio, 0.15, 1, 0, 255);
+    instrumentBrightness = (int)scaleValue(instrumentBrightnessRatio, 0.15, 1, 0, 255);
 }
 
 
@@ -291,7 +299,7 @@ void StandbyAttitudeModule::update()
   drawSpeedIndicator();
   drawAltitudeIndicator();
   // drawUpdate(1); // Update the sprites
-  analogWrite(TFT_BL, round(instrumentBrightness));
+  analogWrite(TFT_BL, instrumentBrightness);
 }
 
 // void StandbyAttitudeModule::loop2()
@@ -338,8 +346,10 @@ void StandbyAttitudeModule::drawSpeedIndicatorLines()
   int minSpeed; // minimum spped in range
   int maxSpeed; // maximum spped in range
 
-  minSpeed = round(airSpeed - 40);
-  maxSpeed = round(airSpeed + 40);
+  // minSpeed = round(airSpeed - 40.0);
+  minSpeed = airSpeed - 40.0;
+  // maxSpeed = round(airSpeed + 40.0);
+  maxSpeed = airSpeed + 40.0;
 
   SpeedIndicatorSpr.loadFont(digitsM);
   // SpeedIndicatorSpr.setFreeFont(d);
@@ -347,11 +357,12 @@ void StandbyAttitudeModule::drawSpeedIndicatorLines()
   SpeedIndicatorSpr.setTextDatum(ML_DATUM);
 
   // find the first airspeed value that has as "10" to draw long lines
-  for (i = minSpeed; i <= maxSpeed; i++)
+  for (i = round(minSpeed); i <= round(maxSpeed); i++)
   {
     if ((i % 10) == 0) // found our first long line
     {
-      yPosLongLines[0] = round(scaleValue(i, minSpeed, maxSpeed, 320, 0));
+      // yPosLongLines[0] = round(scaleValue(i, minSpeed, maxSpeed, 320, 0));
+      yPosLongLines[0] = scaleValue(i, minSpeed, maxSpeed, 320, 0);
       speedValues[0] = i;
       SpeedIndicatorSpr.drawWideLine(15, yPosLongLines[0] + 2, 28, yPosLongLines[0] + 2, 3, TFT_WHITE, TFT_BLACK);
       if (speedValues[i] > 0)
@@ -365,7 +376,8 @@ void StandbyAttitudeModule::drawSpeedIndicatorLines()
   // Now populate the positions of the other long lines
   for (i = 1; i < 8; i++)
   {
-    yPosLongLines[i] = round(scaleValue(speedValues[0] + (i * 10), minSpeed, maxSpeed, 320, 0));
+    // yPosLongLines[i] = round(scaleValue(speedValues[0] + (i * 10), minSpeed, maxSpeed, 320, 0));
+    yPosLongLines[i] = scaleValue(speedValues[0] + (i * 10), minSpeed, maxSpeed, 320, 0);
     SpeedIndicatorSpr.drawWideLine(15, yPosLongLines[i] + 2, 28, yPosLongLines[i] + 2, 3, TFT_WHITE, TFT_BLACK);
     speedValues[i] = speedValues[0] + (i * 10);
     if (speedValues[i] > 0)
@@ -377,7 +389,8 @@ void StandbyAttitudeModule::drawSpeedIndicatorLines()
   {
     if ((i % 5) == 0 && (i % 10) != 0) // found our first short line
     {
-      yPosShortLines[0] = round(scaleValue(i, minSpeed, maxSpeed, 320, 0));
+      // yPosShortLines[0] = round(scaleValue(i, minSpeed, maxSpeed, 320, 0));
+      yPosShortLines[0] = scaleValue(i, minSpeed, maxSpeed, 320, 0);
       speedValues[0] = i;
       SpeedIndicatorSpr.drawWideLine(15, yPosShortLines[0] + 2, 23, yPosShortLines[0] + 2, 3, TFT_WHITE, TFT_BLACK);
       // tft.setTextColor(TFT_GREEN);
@@ -389,7 +402,8 @@ void StandbyAttitudeModule::drawSpeedIndicatorLines()
 
   for (i = 1; i < 8; i++)
   {
-    yPosShortLines[i] = round(scaleValue(speedValues[0] + (i * 10), minSpeed, maxSpeed, 320, 0));
+    // yPosShortLines[i] = round(scaleValue(speedValues[0] + (i * 10), minSpeed, maxSpeed, 320, 0));
+    yPosShortLines[i] = scaleValue(speedValues[0] + (i * 10), minSpeed, maxSpeed, 320, 0);
     speedValues[i] = speedValues[0] + (i * 10);
     SpeedIndicatorSpr.drawWideLine(15, yPosShortLines[i] + 2, 23, yPosShortLines[i] + 2, 3, TFT_WHITE, TFT_BLACK);
   }
@@ -447,8 +461,10 @@ void StandbyAttitudeModule::drawAltitudeIndicatorLines()
   int minAltitude; // minimum altitude in range
   int maxAltitude; // maximum altitude in range
 
-  minAltitude = round(altitude - 250);
-  maxAltitude = round(altitude + 250);
+  // minAltitude = round(altitude - 250.0);
+  minAltitude = altitude - 250.0;
+  // maxAltitude = round(altitude + 250.0);
+  maxAltitude = altitude + 250.0;
 
   AltitudeIndSpr.loadFont(digitsS);
   // AltitudeIndSpr.setFreeFont(digitsM);
@@ -456,11 +472,12 @@ void StandbyAttitudeModule::drawAltitudeIndicatorLines()
   AltitudeIndSpr.setTextDatum(MR_DATUM);
 
   // find the first altitude value that has a "100" to draw long lines
-  for (i = minAltitude; i <= maxAltitude; i++)
+  for (i = round(minAltitude); i <= round(maxAltitude); i++)
   {
     if ((i % 100) == 0) // found our first long line
     {
-      yPosLongLines[0] = round(scaleValue(i, minAltitude, maxAltitude, 320, 0));
+      // yPosLongLines[0] = round(scaleValue(i, minAltitude, maxAltitude, 320, 0));
+      yPosLongLines[0] = scaleValue(i, minAltitude, maxAltitude, 320, 0);
       altitudeValues[0] = i;
       AltitudeIndSpr.drawWideLine(91, yPosLongLines[0] + 2, 109, yPosLongLines[0] + 2, 3, TFT_WHITE, TFT_BLACK);
       AltitudeIndSpr.drawString(String(altitudeValues[0]), 89, yPosLongLines[0] + 2);
@@ -473,7 +490,8 @@ void StandbyAttitudeModule::drawAltitudeIndicatorLines()
   // Now populate the positions of the other long lines
   for (i = 1; i < 5; i++)
   {
-    yPosLongLines[i] = round(scaleValue(altitudeValues[0] + (i * 100), minAltitude, maxAltitude, 320, 0));
+    // yPosLongLines[i] = round(scaleValue(altitudeValues[0] + (i * 100), minAltitude, maxAltitude, 320, 0));
+    yPosLongLines[i] = scaleValue(altitudeValues[0] + (i * 100), minAltitude, maxAltitude, 320, 0);
     AltitudeIndSpr.drawWideLine(91, yPosLongLines[i] + 2, 109, yPosLongLines[i] + 2, 3, TFT_WHITE, TFT_BLACK);
     altitudeValues[i] = altitudeValues[0] + (i * 100);
     AltitudeIndSpr.drawString(String(altitudeValues[i]), 89, yPosLongLines[i] + 2);
@@ -484,7 +502,8 @@ void StandbyAttitudeModule::drawAltitudeIndicatorLines()
   {
     if ((i % 100) != 0 && (i % 50) == 0) // found our first medium ine
     {
-      yPosMediumLines[0] = round(scaleValue(i, minAltitude, maxAltitude, 320, 0));
+      // yPosMediumLines[0] = round(scaleValue(i, minAltitude, maxAltitude, 320, 0));
+      yPosMediumLines[0] = scaleValue(i, minAltitude, maxAltitude, 320, 0);
       altitudeValues[0] = i;
       AltitudeIndSpr.drawWideLine(97, yPosMediumLines[0] + 2, 109, yPosMediumLines[0] + 2, 3, TFT_WHITE, TFT_BLACK);
       // AltitudeIndSpr.drawString(String(altitudeValues[0]), 50, yPosMediumLines[0] + 2);
@@ -496,7 +515,8 @@ void StandbyAttitudeModule::drawAltitudeIndicatorLines()
 
   for (i = 1; i < 5; i++)
   {
-    yPosMediumLines[i] = round(scaleValue(altitudeValues[0] + (i * 100), minAltitude, maxAltitude, 320, 0));
+    // yPosMediumLines[i] = round(scaleValue(altitudeValues[0] + (i * 100), minAltitude, maxAltitude, 320, 0));
+    yPosMediumLines[i] = scaleValue(altitudeValues[0] + (i * 100), minAltitude, maxAltitude, 320, 0);
     altitudeValues[i] = altitudeValues[0] + (i * 100);
     AltitudeIndSpr.drawWideLine(97, yPosMediumLines[i] + 2, 109, yPosMediumLines[i] + 2, 3, TFT_WHITE, TFT_BLACK);
   }
@@ -506,7 +526,8 @@ void StandbyAttitudeModule::drawAltitudeIndicatorLines()
   {
     if ((i % 100) != 0 && (i % 50) != 0 && (i % 25) == 0) // found our first short ine
     {
-      yPosShortLines[0] = round(scaleValue(i, minAltitude, maxAltitude, 320, 0));
+      // yPosShortLines[0] = round(scaleValue(i, minAltitude, maxAltitude, 320, 0));
+      yPosShortLines[0] = scaleValue(i, minAltitude, maxAltitude, 320, 0);
       altitudeValues[0] = i;
       AltitudeIndSpr.drawWideLine(102, yPosShortLines[0] + 2, 109, yPosShortLines[0] + 2, 3, TFT_WHITE, TFT_BLACK);
       break;
@@ -517,7 +538,8 @@ void StandbyAttitudeModule::drawAltitudeIndicatorLines()
 
   for (i = 1; i < 10; i++)
   {
-    yPosShortLines[i] = round(scaleValue(altitudeValues[0] + (i * 50), minAltitude, maxAltitude, 320, 0));
+    // yPosShortLines[i] = round(scaleValue(altitudeValues[0] + (i * 50), minAltitude, maxAltitude, 320, 0));
+    yPosShortLines[i] = scaleValue(altitudeValues[0] + (i * 50), minAltitude, maxAltitude, 320, 0);
     altitudeValues[i] = altitudeValues[0] + (i * 50);
     AltitudeIndSpr.drawWideLine(102, yPosShortLines[i] + 2, 109, yPosShortLines[i] + 2, 3, TFT_WHITE, TFT_BLACK);
   }
@@ -670,6 +692,8 @@ void StandbyAttitudeModule::drawAll()
   planeSpr.pushRotated(&AttitudeIndSpr, newRoll * -1.0, TFT_BLACK);
 
   tft.setViewport(120, 0, 240, 320);
+  tft.setSwapBytes(false);
+  tft.setPivot(240, 160);
   AttitudeIndSpr.pushRotated(newRoll, TFT_BLACK);
   // AttitudeIndBackSpr.pushSprite(120, 0, TFT_BLACK);
   pitchScaleSpr.fillSprite(TFT_BLACK);
