@@ -210,13 +210,15 @@ void StandbyAttitudeModule::set(int16_t messageID, char *setPoint)
     switch (messageID) {
     case -1:
         // tbd., get's called when Mobiflight shuts down
-          digitalWrite(TFT_BL, LOW);
+        analogWrite(TFT_BL, 0);
+        break;
     case -2:
         // tbd., get's called when PowerSavingMode is entered
         if(atoi(setPoint) == 1)
-          digitalWrite(TFT_BL, LOW);
+          analogWrite(TFT_BL, 0);
         else if (atoi(setPoint) == 0)
           analogWrite(TFT_BL, instrumentBrightness);
+        break;
     case 0:
         setPitch(atof(setPoint));
         break;
@@ -229,7 +231,7 @@ void StandbyAttitudeModule::set(int16_t messageID, char *setPoint)
         /* code */
         break;
     case 3:
-      setAirSpeed(atof(setPoint));
+        setAirSpeed(atof(setPoint));
         /* code */
         break;
     case 4:
@@ -242,6 +244,10 @@ void StandbyAttitudeModule::set(int16_t messageID, char *setPoint)
         break;
     case 6:
         setBaro(atof(setPoint));
+        /* code */  
+        break;
+    case 7:
+        setInstrumentBrightness(atof(setPoint));
         /* code */  
         break;
     default:
@@ -287,7 +293,7 @@ void StandbyAttitudeModule::setBaro(float value)
 void StandbyAttitudeModule::setInstrumentBrightness(float value)
 {
     instrumentBrightnessRatio = value;
-    instrumentBrightness = (int)scaleValue(instrumentBrightnessRatio, 0.15, 1, 0, 255);
+    instrumentBrightness = (int)scaleValue(instrumentBrightnessRatio, 0, 1, 0, 255);
 }
 
 
