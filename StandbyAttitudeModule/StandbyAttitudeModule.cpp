@@ -30,26 +30,6 @@
 
 #define GRAY 0x18C3
 
-#define USE_SECOND_CORE 1
-
-#if USE_SECOND_CORE
-#include <atomic>
-std::atomic<bool> sprite_locked[2];
-
-#define LOCK_SPRITE(n)     \
-  while (sprite_locked[n]) \
-    delay(1);              \
-  sprite_locked[n] = true;
-
-#define UNLOCK_SPRITE(n) sprite_locked[n] = false;
-
-#else
-
-#define LOCK_SPRITE(n)
-#define UNLOCK_SPRITE(n)
-
-#endif
-
 TFT_eSPI tft = TFT_eSPI(); // Invoke custom library
 
 TFT_eSprite AttitudeIndSpr = TFT_eSprite(&tft);      // Sprite to hold attitude Indicator
@@ -93,7 +73,6 @@ void StandbyAttitudeModule::begin()
 
   // delay(1000); // wait for serial monitor to open
   // digitalWrite(LED_BUILTIN, LOW);
-  Serial.setTimeout(2);
   tft.begin();
   tft.setRotation(screenRotation);
   tft.fillScreen(PANEL_COLOR);
@@ -166,16 +145,6 @@ void StandbyAttitudeModule::begin()
   baroBoxSpr.setSwapBytes(false);
   baroBoxSpr.fillScreen(TFT_BLACK); // set blue background and use this for transparency later
 
-// #if USE_SECOND_CORE && defined(ARDUINO_ARCH_ESP32)
-//   constexpr int otherCore = CONFIG_ARDUINO_RUNNING_CORE == 0 ? 1 : 0;
-//   TaskHandle_t spriteTaskHandle = nullptr;
-//   xTaskCreateUniversal([](void *)
-//                        {
-//       while(true) {
-//         loop2();
-//         delay(1); // allow for wifi etc
-//       } }, "spriteTask", 8192, NULL, 1, &spriteTaskHandle, otherCore);
-// #endif
 
 }
 
@@ -387,7 +356,7 @@ void StandbyAttitudeModule::drawSpeedIndicatorLines()
       yPosLongLines[0] = scaleValue(i, minSpeed, maxSpeed, 320, 0);
       speedValues[0] = i;
       SpeedIndicatorSpr.drawWideLine(15, yPosLongLines[0] + 2, 28, yPosLongLines[0] + 2, 3, TFT_WHITE, TFT_BLACK);
-      if (speedValues[i] > 0)
+      if (speedValues[0] > 0)
         SpeedIndicatorSpr.drawString(String(speedValues[0]), 30, yPosLongLines[0] + 2);
       break;
       // tft.setTextColor(TFT_GREEN);
